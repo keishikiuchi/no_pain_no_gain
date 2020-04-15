@@ -1,0 +1,7 @@
+<h1>新規投稿</h1>
+
+<%= form_for(@post) do |f| %>
+	<h4>トレーニング</h4>
+	<%= f.text_field :training_post %>
+	<p><%= f.submit 'Create Book', class: "btn btn-primary" %></p>
+<% end %>

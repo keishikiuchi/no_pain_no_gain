@@ -1,0 +1,38 @@
+<h1>ログイン後ホーム</h1>
+
+<div><%= attachment_image_tag current_user, :profile_image, :fill, 60, 60, format: 'jpeg', fallback: "no_image.jpg" %>
+</div>
+
+<table class="table table-condensed">
+			<tr>
+				<th>Name</th>
+				<th><%= current_user.name %></th>
+			</tr>
+
+			<tr>
+				<th>profile</th>
+				<th><%= current_user.profile %></th>
+			</tr>
+</table>
+
+	<%= link_to "プロフィール編集",edit_user_path(current_user) %>
+
+	<p><%= link_to "新規投稿",new_post_path %></p>
+
+<table class="table table-condensed">
+	<tbody>
+		<% @posts.each do |post| %>
+		<tr>
+			<td><%= attachment_image_tag @user, :profile_image, :fill, 40, 40, fallback: "no_image.jpg", size:'50x50' %></td>
+			<td><%= post.training_post %></td>
+			<td><button type="button" class="btn btn-success"><%= link_to "編集", edit_post_path(post.id) %>
+			<td><button type="button" class="btn btn-danger"><%= link_to "削除", post_path(post.id), method: :delete,"data-confirm" => "Are you sure?" %>
+	</button></td>
+	</button></td>
+
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+

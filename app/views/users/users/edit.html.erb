@@ -1,0 +1,15 @@
+<h2>プロフィールを編集</h2>
+
+<%= form_for(@user) do |f| %>
+
+<h4>Image</h4>
+<%= f.attachment_field :profile_image %>
+
+<h4>User Name</h4>
+    <%= f.text_field :name %>
+<h4>Profile</h4>
+    <%= f.text_area :profile %>
+
+<p><%= f.submit 'Update Book', class: "btn btn-primary"%></p>
+
+<% end %>
