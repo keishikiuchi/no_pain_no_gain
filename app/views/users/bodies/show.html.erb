@@ -1,0 +1,34 @@
+<div class="col-xs-offset-2 col-xs-8">
+
+	<% if user_signed_in? && current_user.id == @user.id %>
+
+		<h2>体重/体脂肪入力</h2>
+			<%= form_for (@body) do |f| %>
+				<h4>体重</h4>
+					<p><%= f.text_field :body_weight, :size=>"20x10" %>kg</p>
+				<h4>体脂肪</h4>
+					<p><%= f.text_field :body_fat, :size=>"20×10" %>%</p>
+				<h4>食事メモ</h4>
+					<p><%= f.text_field :memo, :size=>"40×30" %></p>
+				<h4>画像</h4>
+					<p><%= f.attachment_field :image %></p>
+					<p><%= f.submit '記録する', class: "btn btn-primary" %></p>
+			<% end %>
+	<% end %>
+
+	<% @bodies.each do |body| %>
+		<div class="panel panel-default">
+	  	<div class="panel-body">
+			<h3><%= l body.created_at, format: :short %></h3>
+			<p><%= attachment_image_tag body, :image, :fill, 300, 300, format: 'jpeg' %></p>
+			<p>体重: <%= body.body_weight %>kg</p>
+			<p>体脂肪率: <%= body.body_fat %>%</p>
+			<p>食事メモ: <%= body.memo %></p>
+			<% if user_signed_in? && current_user.id == @user.id %>
+				<p><%= link_to "編集", edit_body_path(body.id) %>
+				　　<%= link_to "削除", body_path(body.id), method: :delete,"data-confirm" => "Are you sure?" %>
+				</p>
+			<% end %>
+		</div>
+		</div>
+	<% end %>

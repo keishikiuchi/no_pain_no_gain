@@ -1,38 +1,110 @@
-<h1>ログイン後ホーム</h1>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-2">
+			<div><%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format: 'jpeg', class: "img-circle pull-right profile-img", fallback: "no_image.jpg" %>
+			</div>
+		</div>
+		<div class="col-xs-10">
+			<div>ユーザーネーム: <%= @user.name %>
+				<% if user_signed_in? && current_user.id == @user.id %>
+				<%= link_to "プロフィール編集", edit_user_path(current_user) %>
+				<% end %>
+			</div>
+			<div>プロフィール: <%= @user.profile %></div>
+			<div><%= link_to "体重管理", body_path(@user.id) %></div>
 
-<div><%= attachment_image_tag current_user, :profile_image, :fill, 60, 60, format: 'jpeg', fallback: "no_image.jpg" %>
+			<% unless @user == current_user %>
+			 	<% if current_user.following?(@user) %>
+			    	<%= link_to 'フォロー外す', unfollow_path(@user.id), method: :POST, class: "pull-right" %>
+			  	<% else %>
+			    	<%= link_to 'フォローする', follow_path(@user.id), method: :POST, class: "pull-right" %>
+			  	<% end %>
+			<% end %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-9">
+			<%= month_calendar events: @meetings do |date, meetings| %>
+			  <%= date.day %>
+
+			<% meetings.each do |meeting| %>
+			    <div>
+			    	<%= meeting.name %>
+			    </div>
+			<% end %>
+			<% end %>
+
+			<% if user_signed_in? && current_user.id == @user.id %>
+				<p><%= link_to 'スケジュール一覧', meetings_path %></p>
+				<p><%= link_to 'スケジュール追加', new_meeting_path %></p>
+			<% end %>
+
+			<table class="table table-bordered">
+				<% @posts.each do |post| %>
+					<thead>
+			     		<tr>
+			            	<th>日付</th>
+			                <th>種目</th>
+			                <th>1set</th>
+			                <th>2set</th>
+			                <th>3set</th>
+			                <th>4set</th>
+			                <th>5set</th>
+			            </tr>
+		            </thead>
+					<tbody>
+						<tr>
+							<td><%= l post.created_at, format: :short %></td>
+							<td><%= post.exercise %></td>
+							<td><%= post.firstset_weight %>kg × <%= post.firstset_rep %>rep</td>
+							<td><%= post.secondset_weight %>kg × <%= post.secondset_rep %>rep</td>
+							<td><%= post.thirdset_weight %>kg × <%= post.thirdset_rep %>rep</td>
+							<td><%= post.fourthset_weight %>kg × <%= post.fourthset_rep %>rep</td>
+							<td><%= post.fifthset_weight %>kg × <%= post.fifthset_rep %>rep</td>
+							<td>
+								<% if user_signed_in? && current_user.id == @user.id %>
+									<%= link_to "編集", edit_post_path(post.id) %>
+									<%= link_to "削除", post_path(post.id), method: :delete,"data-confirm" => "Are you sure?" %>
+								<% end %>
+							</td>
+						</tr>
+					</tbody>
+				<% end %>
+			</table>
+		</div>
+		<div class="col-xs-3">
+			<h3>フォロー中</h3>
+				<% @user.following_user.where.not(id: current_user.id).each do |user| %>
+					<p>
+						<%= link_to user_path(user.id) do %>
+			      		<%= attachment_image_tag user, :profile_image, :fill, 40, 40, fallback: "no_image.jpg", size:'50x50' %>
+						<%= user.name %>
+						<% end %>
+				 	<% if current_user.following?(user) %>
+			        	<%= link_to 'フォロー外す', unfollow_path(user.id), method: :POST %>
+			      	<% else %>
+			        	<%= link_to 'フォローする', follow_path(user.id), method: :POST %>
+			      	<% end %>
+			    <% end %>
+			    	</p>
+
+			<h3>ユーザー一覧</h3>
+				<% @users.each do |user| %>
+					<p>
+						<%= link_to user_path(user.id) do %>
+			      		<%= attachment_image_tag user, :profile_image, :fill, 40, 40, fallback: "no_image.jpg", size:'50x50' %>
+						<%= user.name %>
+						<% end %>
+				 	<% if current_user.following?(user) %>
+			        	<%= link_to 'フォロー外す', unfollow_path(user.id), method: :POST %>
+			      	<% else %>
+			        	<%= link_to 'フォローする', follow_path(user.id), method: :POST %>
+			      	<% end %>
+			    <% end %>
+			    	</p>
+		</div>
+	</div>
 </div>
 
-<table class="table table-condensed">
-			<tr>
-				<th>Name</th>
-				<th><%= current_user.name %></th>
-			</tr>
-
-			<tr>
-				<th>profile</th>
-				<th><%= current_user.profile %></th>
-			</tr>
-</table>
-
-	<%= link_to "プロフィール編集",edit_user_path(current_user) %>
-
-	<p><%= link_to "新規投稿",new_post_path %></p>
-
-<table class="table table-condensed">
-	<tbody>
-		<% @posts.each do |post| %>
-		<tr>
-			<td><%= attachment_image_tag @user, :profile_image, :fill, 40, 40, fallback: "no_image.jpg", size:'50x50' %></td>
-			<td><%= post.training_post %></td>
-			<td><button type="button" class="btn btn-success"><%= link_to "編集", edit_post_path(post.id) %>
-			<td><button type="button" class="btn btn-danger"><%= link_to "削除", post_path(post.id), method: :delete,"data-confirm" => "Are you sure?" %>
-	</button></td>
-	</button></td>
-
-		</tr>
-		<% end %>
-	</tbody>
-</table>
 
 

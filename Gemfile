@@ -65,7 +65,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 
 #Bootstrap
-gem 'bootstrap-sass', '~> 3.4.1'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'jquery-rails'
 
 #画像
 gem "refile", require: "refile/rails", github: 'manfe/refile'
@@ -77,3 +78,14 @@ group :production do
   gem 'mysql2'
 end
 
+#カレンダー
+gem 'simple_calendar', '~> 2.0'
+
+gem 'i18n_generators'
+
+#グラフ表示
+gem 'chartkick'
+gem 'groupdate'
+
+# debug
+# gem 'pry-byebug'

@@ -15,7 +15,7 @@ def after_sign_out_path_for(resource)
 	if resource == :admin
 	  new_admin_session_path
 	elsif resource == :user
-	  user_path(current_user)
+	  root_path
 	end
 end
 

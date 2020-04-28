@@ -1,72 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>NoPainNoGain</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+    <head>
+        <title>NoPainNoGain</title>
+        <%= csrf_meta_tags %>
+        <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-
-  <body>
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    </head>
         <header>
-            <nav class="navbar navbar-inverse navbar-fixed-top" >
-                <div class="container">
-                    <div class="row">
-                        <nav class="nav navbar-nav navbar-left">
-                            <nav class="navbar">
-                            <h4>NO PAIN NO GAIN</h4>
-                            </nav>
-
-                        </nav>
-
-                        <ul class="nav navbar-nav navbar-right">
-                            
-                                <p class="nav navbar-nav navbar-right">
-
-                                    <% if user_signed_in? %>
-
-                                    <li><%= link_to user_path(current_user) do %>
+            <div class="col-xs-offset-2 col-xs-8">
+                <h3>NO PAIN NO GAIN</h3>
+                    <ul class="nav navbar-nav navbar-right">
+                        <p class="nav navbar-nav navbar-right">
+                    <!-----管理者ログイン後----->
+                            <% if admin_signed_in? %>
+                                <li class="list_ad_signin"><%= link_to admin_top_path do %>トップ<% end %></li>
+                                <li class="list_ad_signin"><%= link_to admin_home_index_path do %>会員一覧<% end %></li>
+                                <li class="list_ad_signin"><%= link_to destroy_admin_session_path, method: :delete do%>ログアウト<% end %></li>
+                    <!-----会員ログイン後----->
+                            <% elsif user_signed_in? %>
+                                <li><%= link_to user_path(current_user) do %>
+                                    <span class="glyphicon glyphicon-home" aria-hidden="true">Home</span><% end %></li>
+                                <li><%= link_to new_post_path, data: {"turbolinks" => false} do %>
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true">新規投稿</span><% end %></li>
+                                <a class="icon icon--plus" href="/admin/menus/new"><span class="icon__mark"></span></a>
+                                <li><%= link_to posts_path do %>
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true">会員の投稿</span>
+                                    <% end %></li>
+                                <li><%= link_to body_path(current_user) do %>
+                                    <span class="glyphicon glyphicon-book" aria-hidden="true">体重管理</span>
+                                    <% end %></li>
+                                <li><%= link_to destroy_user_session_path, method: :delete do %>
+                                    <span class="glyphicon glyphicon-log-out" aria-hidden="true">ログアウト</span>
+                                    <% end %></li>
+                                    <!-----会員ログイン前----->
+                            <% else %>
+                                <li><%= link_to root_path do %>
                                     <span class="glyphicon glyphicon-home" aria-hidden="true">Home</span>
                                     <% end %></li>
-                                    <li><%= link_to posts_path do %>
-                                    <span class="glyphicon glyphicon-user" aria-hidden="true">会員全員の投稿</span>
+                                <li><%= link_to new_user_registration_path do %>
+                                    <span class="glyphicon glyphicon-link" aria-hidden="true">新規アカウント作成</span>
                                     <% end %></li>
-                                    <li><%= link_to users_path do %>
-                                    <span class="glyphicon glyphicon-book" aria-hidden="true">お気に入りのユーザ一覧</span>
+                                <li><%= link_to new_user_session_path do %>
+                                    <span class="glyphicon glyphicon-log-in" aria-hidden="true" aria-hidden="true">会員ログイン</span>
                                     <% end %></li>
-                                    <li><%= link_to destroy_user_session_path, method: :delete do %>
-                                    <span class="glyphicon glyphicon-log-out" aria-hidden="true">logout</span>
-                                    <% end %></li>
-
-                                    <% else %>
-                                    <li><%= link_to root_path do %>
-                                    <span class="glyphicon glyphicon-home" aria-hidden="true">Home</span>
-                                    <% end %></li>
-                                    <li><%= link_to root_path do %>
-                                    <span class="glyphicon glyphicon-link" aria-hidden="true">About</span>
-                                    <% end %></li>
-                                    <li><%= link_to new_user_registration_path do %>
-                                    <span class="glyphicon glyphicon-link" aria-hidden="true">sign up</span>
-                                    <% end %></li>
-                                    <li><%= link_to new_user_session_path do %>
-                                    <span class="glyphicon glyphicon-log-in" aria-hidden="true" aria-hidden="true">login</span>
-                                    <% end %></li>
-                                    <% end %>
-
-                                </div>
-                            </p>
-                        </ul>
-                    </p>
-                </div>
+                            <% end %>
+                        </p>
+                    </ul>
             </div>
         </header>
-    </div>
-    <p>
+    <body>
         <%= yield %>
-        
-    </p>
-
-</body>
+    </body>
 </html>

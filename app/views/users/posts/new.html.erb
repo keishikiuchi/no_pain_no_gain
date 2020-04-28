@@ -1,7 +1,29 @@
-<h1>新規投稿</h1>
+<div class="col-xs-offset-1 col-xs-9">
+  <h1>新規投稿</h1>
+  <table class="table table-bordered">
+    <thead>
+            <tr>
+              <th>種目</th>
+                <th>1set</th>
+                <th>2set</th>
+                <th>3set</th>
+                <th>4set</th>
+                <th>5set</th>
+            </tr>
+    </thead>
 
-<%= form_for(@post) do |f| %>
-	<h4>トレーニング</h4>
-	<%= f.text_field :training_post %>
-	<p><%= f.submit 'Create Book', class: "btn btn-primary" %></p>
-<% end %>
+    <tbody>
+      <%= form_for(@post) do |f| %>
+      <tr>
+        <td><%= f.text_field :exercise %></td>
+        <td><%= f.text_field :firstset_weight %>kg ×　<%= f.text_field :firstset_rep %>rep</td>
+        <td><%= f.text_field :secondset_weight %>kg　×　<%= f.text_field :secondset_rep %>rep</td>
+        <td><%= f.text_field :thirdset_weight %>kg　×　<%= f.text_field :thirdset_rep %>rep</td>
+        <td><%= f.text_field :fourthset_weight %>kg　×　<%= f.text_field :fourthset_rep %>rep</td>
+        <td><%= f.text_field :fifthset_weight %>kg　×　<%= f.text_field :fifthset_rep %>rep</td>
+      </tr>
+        <p><%= f.submit 'Create Book', class: "btn btn-primary" %></p>
+        <% end %>
+      </tbody>
+  </table>
+</div>

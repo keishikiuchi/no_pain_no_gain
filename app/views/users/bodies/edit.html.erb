@@ -1,0 +1,13 @@
+<div class="col-xs-offset-2 col-xs-8">
+	<h1>体重・体脂肪編集</h1>
+
+	<%= form_for(@body) do |f| %>
+		<h4>体重</h4>
+	    	<%= f.text_field :body_weight %>
+		<h4>体脂肪率</h4>
+	    	<%= f.text_field :body_fat %>
+		<h4>食事メモ</h4>
+			<%= f.text_field :memo %>
+		<p><%= f.submit '更新する', class: "btn btn-primary"%></p>
+	<% end %>
+</div>

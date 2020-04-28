@@ -1,1 +1,17 @@
-<h1>お気に入りユーザー一覧</h1>
+<div class="col-xs-offset-2 col-xs-8">
+
+  <% if user_signed_in? %>
+    <h2>ユーザー一覧画面</h2>
+      <% User.all.where.not(id: current_user.id).each do |user| %>
+        <p>
+          <%= "id: #{user.id} name: #{user.name}" %>
+          <% if current_user.following?(user) %>
+            <%= link_to 'フォロー外す', unfollow_path(user.id), method: :POST %>
+          <% else %>
+            <%= link_to 'フォローする', follow_path(user.id), method: :POST %>
+      <% end %>
+        <%= link_to "show", user_path(user) %>
+        </p>
+    <% end %>
+  <% end %>
+</div>
